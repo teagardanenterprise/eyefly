@@ -24,7 +24,7 @@ class LoomingCircuit:
     NOTICE_THRESH  = 0.30
     REFRACTORY_S   = 3.0
     MIN_ALARM_DEG  = 0.0    # size gate: velocity alone must not alarm
-    FLOW_SUPPRESS  = 2.5     # wide-field flow (px/frame) that fully gates DNp01
+    FLOW_SUPPRESS  = 0.35     # wide-field flow (px/frame) that fully gates DNp01
 
     # --- habituation: PER SECOND, not per frame [empirical] ---
     HAB_DECAY_PER_S   = 0.15   # gain lost per second of sustained full response
