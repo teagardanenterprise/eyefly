@@ -52,3 +52,17 @@ Weights are derived from connectome synapse counts, not fitted. Thresholds and
 habituation constants are our own.
 
 No FlyWire data is used — FlyWire is CC BY-NC and incompatible with commercial use.
+
+## License
+
+Code in this repository is MIT licensed — see `LICENSE`.
+
+The MaleCNS v1.0 connectome data is separately licensed CC-BY 4.0 by its
+authors and is not covered by the MIT license above.
+
+## Development
+
+Built during the AI Tinkerers "Agents Everywhere" global hackathon,
+September 2026. Developed with Claude (Anthropic) as a pair-programming
+collaborator — architecture, connectome extraction, circuit implementation,
+and debugging were worked through in conversation.
