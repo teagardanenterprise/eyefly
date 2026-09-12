@@ -1,0 +1,850 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FruitFlyCCTV Pipeline</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{color-scheme:light dark;}
+  :root{
+    --paper:      #EFEEE3;
+    --paper-raised:#F8F7EE;
+    --ink:        #201F17;
+    --ink-dim:    #6B6852;
+    --line:       rgba(32,31,23,.15);
+    --line-strong:rgba(32,31,23,.32);
+    --amber:      #9C6318;
+    --amber-soft: #E9D2A6;
+    --amber-bg:   rgba(156,99,24,.10);
+    --teal:       #2C6A5C;
+    --teal-bg:    rgba(44,106,92,.10);
+    --alarm:      #A5342A;
+    --alarm-bg:   rgba(165,52,42,.10);
+    --notice:     #93691B;
+    --notice-bg:  rgba(147,105,27,.12);
+    --font-display:'Fraunces',ui-serif,Georgia,serif;
+    --font-body:'Public Sans',ui-sans-serif,system-ui,sans-serif;
+    --font-mono:'IBM Plex Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:      #17170F;
+      --paper-raised:#1F2016;
+      --ink:        #ECE8D8;
+      --ink-dim:    #A6A186;
+      --line:       rgba(236,232,216,.14);
+      --line-strong:rgba(236,232,216,.30);
+      --amber:      #DDA24E;
+      --amber-soft: #6B4E1E;
+      --amber-bg:   rgba(221,162,78,.14);
+      --teal:       #6FB39F;
+      --teal-bg:    rgba(111,179,159,.14);
+      --alarm:      #E27A6C;
+      --alarm-bg:   rgba(226,122,108,.16);
+      --notice:     #D7B45C;
+      --notice-bg:  rgba(215,180,92,.16);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:      #17170F;
+    --paper-raised:#1F2016;
+    --ink:        #ECE8D8;
+    --ink-dim:    #A6A186;
+    --line:       rgba(236,232,216,.14);
+    --line-strong:rgba(236,232,216,.30);
+    --amber:      #DDA24E;
+    --amber-soft: #6B4E1E;
+    --amber-bg:   rgba(221,162,78,.14);
+    --teal:       #6FB39F;
+    --teal-bg:    rgba(111,179,159,.14);
+    --alarm:      #E27A6C;
+    --alarm-bg:   rgba(226,122,108,.16);
+    --notice:     #D7B45C;
+    --notice-bg:  rgba(215,180,92,.16);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:var(--font-body); font-size:16.5px; line-height:1.62;
+    margin:0; padding-inline:clamp(16px,4.5vw,44px); padding-block:0 72px;
+  }
+  .prose{max-width:800px;margin-inline:auto;}
+  .wide{max-width:1260px;margin-inline:auto;}
+  h1,h2,h3{font-family:var(--font-display);text-wrap:balance;font-weight:600;margin:0;}
+  h2{font-size:clamp(1.5rem,1.1rem+1.4vw,2.05rem);letter-spacing:-.01em;}
+  h3{font-size:1.15rem;font-weight:600;}
+  p{margin:0;}
+  .eyebrow{
+    font-family:var(--font-mono);font-size:.72rem;font-weight:500;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin:0 0 .6rem;
+  }
+  a{color:inherit;}
+  code, .mono{font-family:var(--font-mono);}
+  ::selection{background:var(--amber-soft);}
+
+  /* ---------- masthead ---------- */
+  .masthead{max-width:1260px;margin-inline:auto;padding-block:56px 40px;
+    display:flex;justify-content:space-between;gap:32px;align-items:flex-start;
+    border-bottom:1px solid var(--line-strong);}
+  .masthead-inner{max-width:640px;}
+  .masthead h1{font-size:clamp(2.4rem,1.9rem+2vw,3.4rem);font-weight:700;letter-spacing:-.02em;}
+  .tagline{margin-top:14px;font-size:1.08rem;line-height:1.6;color:var(--ink);max-width:56ch;}
+  .tagline em{font-style:italic;color:var(--ink-dim);}
+  .meta{display:flex;flex-wrap:wrap;gap:28px;margin:28px 0 0;padding:18px 0 0;
+    border-top:1px solid var(--line);}
+  .meta > div{min-width:140px;}
+  .meta dt{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-dim);margin:0 0 3px;}
+  .meta dd{margin:0;font-size:.92rem;}
+  .facet-emblem{flex:0 0 auto;width:104px;height:104px;color:var(--ink-dim);opacity:.55;}
+  .facet-emblem polygon.center{fill:var(--amber-bg);stroke:var(--amber);}
+  @media (max-width:640px){.facet-emblem{display:none;}}
+
+  /* ---------- stat tiles ---------- */
+  .glance{max-width:1260px;margin:40px auto 0;}
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));
+    gap:1px;background:var(--line-strong);border:1px solid var(--line-strong);}
+  .tile{background:var(--paper);padding:20px 18px;}
+  .tile b{display:block;font-family:var(--font-display);font-weight:700;
+    font-size:1.9rem;letter-spacing:-.01em;font-variant-numeric:tabular-nums;}
+  .tile span{display:block;margin-top:4px;font-size:.82rem;color:var(--ink-dim);line-height:1.4;}
+
+  section{margin-top:76px;}
+  .section-head{max-width:800px;margin-inline:auto 0;margin-bottom:28px;}
+  .section-head p{margin-top:10px;color:var(--ink-dim);max-width:64ch;font-size:1rem;}
+
+  /* ---------- diagram ---------- */
+  .diagram-wrap{overflow-x:auto;border:1px solid var(--line);background:var(--paper-raised);
+    padding:20px 16px 12px;}
+  .diagram-wrap svg{display:block;width:1360px;height:auto;min-width:1360px;}
+  figure{margin:0;}
+  figcaption{margin-top:14px;font-size:.9rem;color:var(--ink-dim);max-width:70ch;}
+  .legend{margin-top:8px;display:flex;align-items:center;gap:8px;font-family:var(--font-mono);
+    font-size:.78rem;color:var(--amber);}
+  .legend .swatch{width:18px;height:2px;background:var(--amber);display:inline-block;}
+
+  .dg-lane-label{font:600 10px var(--font-mono);letter-spacing:.1em;fill:var(--ink-dim);}
+  .dg-box{fill:var(--paper);stroke:var(--line-strong);stroke-width:1.4;}
+  .dg-box.accent{stroke:var(--amber);stroke-width:2;}
+  .dg-inner{fill:var(--paper-raised);stroke:var(--line);stroke-width:1;}
+  .dg-title{font:700 14px var(--font-display);fill:var(--ink);}
+  .dg-sub{font:500 10px var(--font-mono);fill:var(--ink-dim);}
+  .dg-div{stroke:var(--line);stroke-width:1;}
+  .dg-tag{font:600 8.5px var(--font-mono);letter-spacing:.06em;fill:var(--ink-dim);}
+  .dg-val{font:500 10.5px var(--font-mono);fill:var(--ink);}
+  .dg-line{stroke:var(--line-strong);stroke-width:1.5;fill:none;}
+  .dg-line-amber{stroke:var(--amber);stroke-width:1.5;fill:none;stroke-dasharray:4 4;}
+  .dg-arrowhead{fill:var(--line-strong);}
+  .dg-arrowhead-amber{fill:var(--amber);}
+  .dg-formula{font:500 10px var(--font-mono);fill:var(--amber);}
+  .dg-note{font:400 9.5px var(--font-body);fill:var(--ink-dim);}
+  .dg-cardname{font:600 11px var(--font-mono);fill:var(--ink);}
+  .dg-carddesc{font:400 9.3px var(--font-body);fill:var(--ink-dim);}
+
+  /* ---------- pipeline stages ---------- */
+  .stages{max-width:900px;margin-inline:auto;}
+  .stage{display:grid;grid-template-columns:56px 1fr;gap:22px;padding-block:36px;
+    border-top:1px solid var(--line);}
+  .stage:first-child{border-top:none;padding-top:0;}
+  .stage-num{font-family:var(--font-display);font-weight:700;font-size:1.6rem;color:var(--amber);
+    font-variant-numeric:tabular-nums;line-height:1;}
+  .stage h3{margin-bottom:6px;}
+  .stage .file{font-family:var(--font-mono);font-size:.82rem;color:var(--ink-dim);
+    display:block;margin-bottom:14px;}
+  .stage p.desc{max-width:66ch;color:var(--ink);font-size:.97rem;}
+  .io{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:18px;}
+  .io-panel{border:1px solid var(--line);background:var(--paper-raised);padding:13px 15px;}
+  .io-panel .tag{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.12em;
+    text-transform:uppercase;font-weight:600;}
+  .io-panel.in .tag{color:var(--teal);}
+  .io-panel.out .tag{color:var(--amber);}
+  .io-panel pre{margin:8px 0 0;font-family:var(--font-mono);font-size:.82rem;
+    white-space:pre-wrap;line-height:1.55;color:var(--ink);}
+  .consumers-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:14px;margin-top:16px;}
+  .consumer{border:1px solid var(--line);padding:13px 15px;}
+  .consumer .name{font-family:var(--font-mono);font-weight:600;font-size:.9rem;}
+  .consumer .desc{font-size:.85rem;color:var(--ink-dim);margin-top:6px;line-height:1.5;}
+  .consumer .iodesc{font-size:.78rem;font-family:var(--font-mono);color:var(--ink-dim);margin-top:8px;}
+  .consumer .iodesc b{color:var(--ink);font-weight:600;}
+
+  /* ---------- constants table ---------- */
+  table{border-collapse:collapse;width:100%;font-size:.9rem;}
+  .table-wrap{overflow-x:auto;}
+  th,td{text-align:left;padding:10px 16px 10px 0;border-bottom:1px solid var(--line);
+    vertical-align:top;white-space:nowrap;}
+  th:last-child,td:last-child{white-space:normal;}
+  th{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--ink-dim);font-weight:600;}
+  td.val{font-family:var(--font-mono);font-variant-numeric:tabular-nums;}
+  .badge{display:inline-block;font-family:var(--font-mono);font-size:.68rem;font-weight:600;
+    letter-spacing:.03em;padding:2px 7px;border:1px solid;}
+  .badge.connectome{color:var(--amber);border-color:var(--amber);background:var(--amber-bg);}
+  .badge.published{color:var(--teal);border-color:var(--teal);background:var(--teal-bg);}
+  .badge.empirical{color:var(--ink-dim);border-color:var(--line-strong);}
+
+  /* ---------- limitations ---------- */
+  .limits{max-width:800px;margin-inline:auto;}
+  .limit{padding-block:18px;border-top:1px solid var(--line);display:grid;
+    grid-template-columns:170px 1fr;gap:20px;}
+  .limit:first-child{border-top:none;}
+  .limit b{font-size:.92rem;}
+  .limit p{color:var(--ink-dim);font-size:.9rem;margin-top:4px;}
+  @media (max-width:600px){.limit{grid-template-columns:1fr;gap:4px;}}
+
+  /* ---------- commands / footer ---------- */
+  .cmds{background:var(--paper-raised);border:1px solid var(--line);padding:18px 20px;
+    font-family:var(--font-mono);font-size:.85rem;line-height:2;overflow-x:auto;}
+  .cmds .c{color:var(--ink-dim);}
+  footer{max-width:800px;margin:88px auto 0;padding-top:28px;border-top:1px solid var(--line-strong);
+    font-size:.86rem;color:var(--ink-dim);line-height:1.7;}
+  footer strong{color:var(--ink);}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <p class="eyebrow">Engineering reference · data flow</p>
+    <h1>FruitFlyCCTV</h1>
+    <p class="tagline">A security-camera alert system that runs an actual <em>Drosophila</em>
+      looming-escape circuit on the video feed — LC4 and LPLC2 into the Giant Fiber (DNp01) —
+      with connection weights read directly from synapse counts in the MaleCNS v1.0 connectome,
+      not fitted to data. Local CPU, no GPU, no training, no cloud.</p>
+    <dl class="meta">
+      <div><dt>Data source</dt><dd>MaleCNS v1.0 · CC&#8209;BY 4.0</dd></div>
+      <div><dt>Response model</dt><dd>Ache et al. 2019, Current Biology</dd></div>
+      <div><dt>Runtime</dt><dd>local CPU, ~30&nbsp;fps</dd></div>
+    </dl>
+  </div>
+  <svg class="facet-emblem" viewBox="0 0 80 80" aria-hidden="true">
+    <polygon points="53,40 46.5,51.3 33.5,51.3 27,40 33.5,28.7 46.5,28.7" class="center" stroke-width="1.3"/>
+    <g fill="none" stroke="currentColor" stroke-width="1">
+      <polygon points="72.5,51.3 66,62.6 53,62.6 46.5,51.3 53,40 66,40"/>
+      <polygon points="53,62.5 46.5,73.8 33.5,73.8 27,62.5 33.5,51.2 46.5,51.2"/>
+      <polygon points="33.5,51.3 27,62.6 14,62.6 7.5,51.3 14,40 27,40"/>
+      <polygon points="33.5,28.7 27,40 14,40 7.5,28.7 14,17.4 27,17.4"/>
+      <polygon points="53,17.5 46.5,28.8 33.5,28.8 27,17.5 33.5,6.2 46.5,6.2"/>
+      <polygon points="72.5,28.7 66,40 53,40 46.5,28.7 53,17.4 66,17.4"/>
+    </g>
+  </svg>
+</header>
+
+<section class="glance">
+  <div class="tiles">
+    <div class="tile"><b>14,301</b><span>neurons in the extracted subgraph</span></div>
+    <div class="tile"><b>23</b><span>cell types tracked — LC/LPLC, T4/T5, HS/VS, DNp</span></div>
+    <div class="tile"><b>107,544</b><span>signed synaptic edges, weight ≥ 3</span></div>
+    <div class="tile"><b>48×48</b><span>retina resolution, px — coarser than 1080p on purpose</span></div>
+    <div class="tile"><b>2</b><span>severity tiers computed for free: NOTICE / ALARM</span></div>
+  </div>
+</section>
+
+<section id="dataflow" class="wide">
+  <div class="section-head prose" style="margin-left:0">
+    <p class="eyebrow">Data flow</p>
+    <h2>From synapse counts to an alarm</h2>
+    <p>Two pipelines. The top lane runs once, offline, and turns ~1&nbsp;GB of raw connectome
+      tables into a small signed weight matrix. The bottom lane runs on every video frame,
+      using those weights to turn a camera image into a NOTICE or ALARM event.</p>
+  </div>
+  <div class="diagram-wrap">
+    <svg viewBox="0 0 1360 356" role="img" aria-label="Two data-flow lanes. Offline, once: three MaleCNS feather files are filtered and aggregated by extract_subgraph.py into circuit_weights.json. Runtime, every frame: a camera or clip frame goes into the Retina in motion.py, which outputs theta, area, flow, warm and mask; that goes into the Circuit in circuit.py, which combines LC4, LPLC2 and the connectome weights into a DNp01 activation and an ALARM or NOTICE event; that reaches three consumers, live.py, run_clip.py and trace.py.">
+      <defs>
+        <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L8,4 L0,8 Z" class="dg-arrowhead"/>
+        </marker>
+        <marker id="arrowAmber" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L8,4 L0,8 Z" class="dg-arrowhead-amber"/>
+        </marker>
+      </defs>
+
+      <text x="24" y="14" class="dg-lane-label">OFFLINE — RUN ONCE</text>
+      <g>
+        <rect x="24" y="22" width="190" height="68" class="dg-box"/>
+        <text x="38" y="44" class="dg-title">3 feather files</text>
+        <text x="38" y="58" class="dg-sub">MaleCNS v1.0 · ~1.05&#160;GB</text>
+        <text x="38" y="76" class="dg-note">annotations · transmitters · weights</text>
+      </g>
+      <line x1="214" y1="56" x2="248" y2="56" class="dg-line" marker-end="url(#arrow)"/>
+      <g>
+        <rect x="250" y="22" width="230" height="68" class="dg-box"/>
+        <text x="264" y="44" class="dg-title">extract_subgraph.py</text>
+        <text x="264" y="58" class="dg-sub">scripts/extract_subgraph.py</text>
+        <text x="264" y="76" class="dg-note">filter 23 types · sign by NT · w ≥ 3</text>
+      </g>
+      <line x1="480" y1="56" x2="514" y2="56" class="dg-line" marker-end="url(#arrow)"/>
+      <g>
+        <rect x="516" y="22" width="210" height="68" class="dg-box"/>
+        <text x="530" y="44" class="dg-title">circuit_weights.json</text>
+        <text x="530" y="58" class="dg-sub">src/circuit_weights.json</text>
+        <text x="530" y="76" class="dg-note">type matrix + subgraph_bodies.csv</text>
+      </g>
+
+      <polyline points="621,90 621,140 676,140 676,194" class="dg-line-amber" marker-end="url(#arrowAmber)"/>
+      <text x="650" y="122" text-anchor="middle" class="dg-note">connectome weights, loaded once at init</text>
+      <text x="650" y="136" text-anchor="middle" class="dg-formula">w_vel .567 · w_size .433 · w_cross .159</text>
+
+      <text x="24" y="188" class="dg-lane-label">RUNTIME — EVERY FRAME</text>
+
+      <g>
+        <rect x="24" y="196" width="160" height="140" class="dg-box"/>
+        <text x="38" y="220" class="dg-title">Camera / clip</text>
+        <text x="38" y="236" class="dg-sub">webcam or video file</text>
+        <line x1="38" y1="246" x2="170" y2="246" class="dg-div"/>
+        <text x="38" y="266" class="dg-tag" fill="var(--teal)">IN</text>
+        <text x="38" y="280" class="dg-val">device idx</text>
+        <text x="38" y="293" class="dg-val">or file path</text>
+        <text x="38" y="311" class="dg-tag" fill="var(--amber)">OUT</text>
+        <text x="38" y="325" class="dg-val">BGR frame, t (s)</text>
+      </g>
+
+      <line x1="184" y1="266" x2="218" y2="266" class="dg-line" marker-end="url(#arrow)"/>
+
+      <g>
+        <rect x="220" y="196" width="270" height="140" class="dg-box"/>
+        <text x="234" y="220" class="dg-title">Retina</text>
+        <text x="234" y="236" class="dg-sub">src/motion.py — Retina()</text>
+        <line x1="234" y1="246" x2="476" y2="246" class="dg-div"/>
+        <text x="234" y="266" class="dg-tag" fill="var(--teal)">IN</text>
+        <text x="234" y="280" class="dg-val">frame, t</text>
+        <text x="234" y="298" class="dg-tag" fill="var(--amber)">OUT</text>
+        <text x="234" y="312" class="dg-val">theta, area, flow,</text>
+        <text x="234" y="325" class="dg-val">warm, mask</text>
+      </g>
+
+      <line x1="490" y1="266" x2="524" y2="266" class="dg-line" marker-end="url(#arrow)"/>
+
+      <g>
+        <rect x="526" y="196" width="300" height="140" class="dg-box accent"/>
+        <text x="540" y="220" class="dg-title">Circuit</text>
+        <text x="540" y="236" class="dg-sub">src/circuit.py — LoomingCircuit.step()</text>
+        <line x1="540" y1="246" x2="812" y2="246" class="dg-div"/>
+        <text x="540" y="266" class="dg-tag" fill="var(--teal)">IN</text>
+        <text x="540" y="280" class="dg-val">t, theta_deg, area, flow</text>
+        <text x="540" y="298" class="dg-tag" fill="var(--amber)">OUT</text>
+        <text x="540" y="312" class="dg-val">LC4, LPLC2, DNp01,</text>
+        <text x="540" y="325" class="dg-val">gain, suppress, event</text>
+      </g>
+
+      <line x1="826" y1="266" x2="860" y2="266" class="dg-line" marker-end="url(#arrow)"/>
+
+      <g>
+        <rect x="862" y="196" width="474" height="140" class="dg-box"/>
+        <text x="876" y="220" class="dg-title">Consumers</text>
+        <line x1="876" y1="230" x2="1322" y2="230" class="dg-div"/>
+
+        <rect x="876" y="240" width="141" height="82" class="dg-inner"/>
+        <text x="886" y="260" class="dg-cardname">live.py</text>
+        <text x="886" y="276" class="dg-carddesc">webcam →</text>
+        <text x="886" y="288" class="dg-carddesc">cv2 window + log</text>
+
+        <rect x="1029" y="240" width="141" height="82" class="dg-inner"/>
+        <text x="1039" y="260" class="dg-cardname">run_clip.py</text>
+        <text x="1039" y="276" class="dg-carddesc">video →</text>
+        <text x="1039" y="288" class="dg-carddesc">summary line</text>
+
+        <rect x="1182" y="240" width="141" height="82" class="dg-inner"/>
+        <text x="1192" y="260" class="dg-cardname">trace.py</text>
+        <text x="1192" y="276" class="dg-carddesc">clip →</text>
+        <text x="1192" y="288" class="dg-carddesc">per-frame log</text>
+      </g>
+    </svg>
+  </div>
+  <figure>
+    <figcaption>Two lanes, one hand-off: the connectome weight matrix is computed once, offline,
+      and read into <span class="mono">LoomingCircuit</span> at start-up; the video lane runs
+      that circuit on every incoming frame.</figcaption>
+    <div class="legend"><span class="swatch"></span>connectome-derived weight, flowing into the model</div>
+  </figure>
+</section>
+
+<section id="stages" class="prose">
+  <div class="section-head">
+    <p class="eyebrow">Pipeline stages</p>
+    <h2>Every step, input to output</h2>
+    <p>The same four stages as the diagram above, in the order a frame actually moves through
+      them, with the exact fields each stage reads and writes.</p>
+  </div>
+
+  <div class="stages">
+    <div class="stage">
+      <div class="stage-num">00</div>
+      <div>
+        <h3>Connectome subgraph extraction</h3>
+        <span class="file">scripts/extract_subgraph.py — runs once, offline</span>
+        <p class="desc">Loads the three MaleCNS v1.0 tables, keeps only the 23 cell types the
+          circuit cares about (LC4, LPLC2, LC11, LPLC1, LPLC4; T4a–d, T5a–d; HSE/HSN/HSS, VS;
+          DNp01/02/03/04/06/11), signs every edge by its presynaptic neuron's consensus
+          neurotransmitter (GABA/glutamate → −1, acetylcholine/dopamine/serotonin/octopamine → +1),
+          drops edges under 3 synapses, and aggregates the remainder into a type-level matrix.</p>
+        <div class="io">
+          <div class="io-panel in">
+            <span class="tag">Input</span>
+            <pre>body-annotations-*.feather
+  (bodyId, type, instance, somaSide)
+body-neurotransmitters-*.feather
+  (body, consensus_nt)
+connectome-weights-*.feather
+  (body_pre, body_post, weight)</pre>
+          </div>
+          <div class="io-panel out">
+            <span class="tag">Output</span>
+            <pre>src/circuit_weights.json
+  { source, min_synapse_weight,
+    neuron_counts{type: n},
+    type_sign{type: ±1},
+    edges{"A-&gt;B": {synapses,
+                    signed, n_edges}} }
+src/subgraph_bodies.csv</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-num">01</div>
+      <div>
+        <h3>Retina — motion front end</h3>
+        <span class="file">src/motion.py — class Retina, called once per frame</span>
+        <p class="desc">Converts each frame to grayscale, downsamples to a 48×48 grid (coarser
+          than 1080p on purpose — closer to fly ommatidial acuity), and contrast-normalises it.
+          Farneback optical flow against the previous frame gives a global mean vector μ — the
+          self-motion signal, the HS/VS analogue — and the residual (flow − μ) weights a
+          frame-difference energy map. An adaptive median + 6·MAD threshold picks out the blob
+          that actually stands out from the scene; its bounding box gives the subtended angle θ
+          and area, assuming a 60° field of view.</p>
+        <div class="io">
+          <div class="io-panel in">
+            <span class="tag">Input</span>
+            <pre>frame: ndarray (H×W×3, BGR)
+t: float — seconds</pre>
+          </div>
+          <div class="io-panel out">
+            <span class="tag">Output</span>
+            <pre>{ theta: float   # deg, blob extent
+  area: float    # fraction of frame
+  flow: float    # global flow magnitude
+  warm: bool     # &lt;1s since start
+  mask: ndarray }# blob mask, for viz</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-num">02</div>
+      <div>
+        <h3>Circuit — looming model &amp; alert decision</h3>
+        <span class="file">src/circuit.py — class LoomingCircuit, method .step()</span>
+        <p class="desc">LC4 is a leaky high-pass filter on expansion velocity dθ/dt (τ = 0.10&nbsp;s).
+          LPLC2 is a Gaussian tuned to angular size, peaking at 40° (published in Ache et al. 2019).
+          A cross-term LPLC2×LC4 mirrors the LPLC2→LC4 synapse. The three sum with connectome-derived
+          weights and pass through a supralinear exponent (1/1.4) to give DNp01's raw drive, which is
+          then scaled by a habituation gain (decays 0.35/s while firing, recovers 0.08/s, floor 0.20)
+          and a wide-field flow-suppression term that discounts self-motion. DNp01 ≥ 0.65 with
+          θ ≥ 25°, outside a 2&nbsp;s refractory window, fires ALARM; ≥ 0.30 fires NOTICE.</p>
+        <div class="io">
+          <div class="io-panel in">
+            <span class="tag">Input</span>
+            <pre>t: float
+theta_deg: float
+blob_area_frac: float = 0.0
+flow: float = 0.0</pre>
+          </div>
+          <div class="io-panel out">
+            <span class="tag">Output</span>
+            <pre>{ LC4: 0–1,  LPLC2: 0–1
+  DNp01: 0–1,  gain: 0–1
+  suppress: 0–1
+  event: null | "NOTICE" | "ALARM" }</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-num">03</div>
+      <div>
+        <h3>Consumers — runtime entry points</h3>
+        <span class="file">src/live.py · src/run_clip.py · scripts/trace.py</span>
+        <p class="desc">Three thin drivers wire a video source to the Retina + Circuit pair and
+          do something with the resulting event stream. None of them touch the model itself —
+          swapping the alerting surface means writing a fourth driver, not editing circuit.py.</p>
+        <div class="consumers-grid">
+          <div class="consumer">
+            <div class="name">live.py</div>
+            <div class="desc">Webcam loop. Draws LC4/LPLC2/DNp01 activation bars and the raw
+              blob mask in two cv2 windows; prints and buffers ALARM events.</div>
+            <div class="iodesc"><b>in</b> device idx / clip · <b>out</b> cv2 windows,
+              optional events.json</div>
+          </div>
+          <div class="consumer">
+            <div class="name">run_clip.py</div>
+            <div class="desc">Headless batch pass over a clip (or --show for the same overlay
+              as live.py). Used by the ablation harness to compare configurations.</div>
+            <div class="iodesc"><b>in</b> video path(s) · <b>out</b> summary line,
+              events list</div>
+          </div>
+          <div class="consumer">
+            <div class="name">trace.py</div>
+            <div class="desc">Diagnostic dump: every N frames, prints θ, dθ, flow, and each
+              activation, then min/median/p90/max summary stats.</div>
+            <div class="iodesc"><b>in</b> video path(s) · <b>out</b> stdout table + stats</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="weights-json" class="prose">
+  <div class="section-head">
+    <p class="eyebrow">Inside circuit_weights.json</p>
+    <h2>How its values were chosen</h2>
+    <p>Every number in the file is a rollup of the raw connectome tables, not a hand-picked
+      constant — this is the arithmetic <span class="mono">scripts/extract_subgraph.py</span>
+      does to get there, and what's actually used downstream.</p>
+  </div>
+
+  <h3>Which 23 types, and why</h3>
+  <p style="max-width:66ch;margin-top:8px;color:var(--ink);">Rather than keep all 166,700 neurons
+    in MaleCNS v1.0, the extractor filters annotations down to <span class="mono">TYPES</span> —
+    one named list, chosen by role in the circuit:</p>
+  <div class="table-wrap" style="margin-top:16px;">
+    <table>
+      <thead><tr><th>Group</th><th>Types</th><th>Role</th></tr></thead>
+      <tbody>
+        <tr><td>Looming channels</td><td class="val">LC4, LPLC2</td>
+          <td>drive DNp01 directly — the two terms in Ache et al.'s published model</td></tr>
+        <tr><td>Contrast / control</td><td class="val">LC11</td>
+          <td>a small-object detector, kept as a check that it contributes ~0 to DNp01</td></tr>
+        <tr><td>Sibling LPLCs</td><td class="val">LPLC1, LPLC4</td>
+          <td>extracted for completeness; not yet wired into the running model</td></tr>
+        <tr><td>Motion input layer</td><td class="val">T4a–d, T5a–d</td>
+          <td>the Reichardt-correlator layer that feeds LC/LPLC upstream, kept for a future
+            full front end (§ known limitations)</td></tr>
+        <tr><td>Wide-field / self-motion</td><td class="val">HSE, HSN, HSS, VS</td>
+          <td>the biological HS/VS signal — what motion.py's flow term is standing in for</td></tr>
+        <tr><td>Descending outputs</td><td class="val">DNp01…DNp06, DNp11</td>
+          <td>DNp01 is the Giant Fiber, wired to ALARM; the rest are un-used NOTICE-tier
+            candidates</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="margin-top:44px;">The weight threshold — min_synapse_weight = 3</h3>
+  <p style="max-width:66ch;margin-top:8px;color:var(--ink);">Across the full connectome the
+    <em>median</em> edge carries a single synapse. A one- or two-synapse connection is as
+    consistent with segmentation noise as with a real one, so edges under 3 synapses are
+    dropped before anything is aggregated. Lower it and the matrix fills with noise; raise it
+    and small-but-real channels (like the LPLC2→LC4 cross-term, 1,780 synapses) start to look
+    arbitrary rather than measured.</p>
+
+  <h3 style="margin-top:44px;">Sign — excitatory vs inhibitory</h3>
+  <p style="max-width:66ch;margin-top:8px;color:var(--ink);">Each neuron's own
+    <span class="mono">consensus_nt</span> (from the neurotransmitter table) is mapped to a
+    sign: GABA and glutamate → −1 (inhibitory), acetylcholine, dopamine, serotonin and
+    octopamine → +1 (excitatory). <span class="mono">type_sign</span> in the JSON is the
+    median sign across all neurons of that type. The extractor now fails loudly rather than
+    guessing — if any tracked neuron lacks a mapped transmitter it prints a warning naming the
+    type before defaulting it to +1, and otherwise says so explicitly. In this subgraph every
+    one of the 23 types came back cholinergic: <span class="mono">type_sign</span> is +1.0
+    across the board, so <span class="mono">signed</span> currently equals
+    <span class="mono">synapses</span> for every edge — a measured result, not an assumption
+    the extractor makes going in.</p>
+
+  <h3 style="margin-top:44px;">The edges matrix — synapses, signed, n_edges</h3>
+  <p style="max-width:66ch;margin-top:8px;color:var(--ink);">The ~151M-row weight table is filtered
+    to edges above the threshold whose endpoints are both in the 14,301-neuron subgraph, each
+    body ID is mapped to its cell type, and rows are grouped by
+    (<span class="mono">type_pre</span>, <span class="mono">type_post</span>). Per group:
+    <span class="mono">synapses</span> sums the raw synapse counts, <span class="mono">signed</span>
+    sums synapses×sign for the presynaptic neuron, and <span class="mono">n_edges</span> counts
+    how many distinct body-to-body connections were collapsed into that one type-pair.
+    <span class="mono">neuron_counts</span> is a plain per-type tally after filtering — used
+    for reporting, not read by the runtime model.</p>
+
+  <h3 style="margin-top:44px;">What circuit.py actually reads</h3>
+  <p style="max-width:66ch;margin-top:8px;color:var(--ink);">Of the hundreds of type-pairs in the
+    file, <span class="mono">LoomingCircuit.__init__</span> reads exactly three —
+    <span class="mono">LC4→DNp01</span>, <span class="mono">LPLC2→DNp01</span> and
+    <span class="mono">LPLC2→LC4</span> — to compute <span class="mono">w_vel</span>,
+    <span class="mono">w_size</span> and <span class="mono">w_cross</span> (see the constant
+    table below). The T4/T5, HS/VS and other DNp edges ship in the file for a future full
+    front end but aren't consumed by the model running today.</p>
+</section>
+
+<section id="optical-flow" class="prose">
+  <div class="section-head">
+    <p class="eyebrow">Stage 01, in depth</p>
+    <h2>Optical flow — what it does, and how</h2>
+    <p>Retina runs one optical-flow computation per frame and splits its result into two very
+      different signals: one reshapes which pixels count as "the blob," the other later gates
+      whether the circuit is allowed to alarm at all.</p>
+  </div>
+
+  <h3>Dense flow vs. frame difference</h3>
+  <p style="max-width:66ch;margin-top:8px;color:var(--ink);">Frame differencing (<span class="mono">|gf − prev|</span>)
+    only says a pixel's brightness changed. Optical flow says which <em>direction</em> and how
+    <em>far</em> it moved. <span class="mono">cv2.calcOpticalFlowFarneback</span> estimates this
+    densely — a (dx, dy) vector for every one of the 48×48 grid cells, not just a handful of
+    tracked corners — by fitting a local polynomial to each cell's neighbourhood in both frames
+    and solving for the displacement that best explains the change between them, over a small
+    image pyramid so both slow, large motion and fast, fine motion are caught.</p>
+
+  <div class="cmds" style="margin-top:16px;">
+    <div>fl = cv2.calcOpticalFlowFarneback(prev_small, small, None,</div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;0.5, 2, 9, 2, 5, 1.1, 0)</div>
+  </div>
+  <div class="table-wrap" style="margin-top:16px;">
+    <table>
+      <thead><tr><th>Param</th><th>Value</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td>pyr_scale</td><td class="val">0.5</td><td>each pyramid level is half the resolution of the one below — catches large and small motion together</td></tr>
+        <tr><td>levels</td><td class="val">2</td><td>number of pyramid levels</td></tr>
+        <tr><td>winsize</td><td class="val">9</td><td>averaging window per estimate — bigger is smoother and more noise-robust, blurrier on fast motion</td></tr>
+        <tr><td>iterations</td><td class="val">2</td><td>refinement passes at each pyramid level</td></tr>
+        <tr><td>poly_n</td><td class="val">5</td><td>neighbourhood size used to fit the local polynomial</td></tr>
+        <tr><td>poly_sigma</td><td class="val">1.1</td><td>Gaussian smoothing applied before the polynomial fit</td></tr>
+        <tr><td>flags</td><td class="val">0</td><td>none of OpenCV's optional flags — no Gaussian-window variant, no seeding from the previous flow field</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="margin-top:44px;">Splitting the field: self-motion vs. object motion</h3>
+  <p style="max-width:66ch;margin-top:8px;color:var(--ink);">The raw field mixes two things
+    together: the camera's own motion (shake, pan, vehicle vibration) and whatever is actually
+    moving on its own in the scene. motion.py separates them with one line each:</p>
+  <div class="table-wrap" style="margin-top:16px;">
+    <table>
+      <thead><tr><th>Quantity</th><th>Computed as</th><th>Represents</th></tr></thead>
+      <tbody>
+        <tr><td>μ (mu)</td><td class="val">fl.mean(axis=0)</td>
+          <td>the whole-field average displacement — one shared vector if the entire 48×48 grid
+            is drifting together</td></tr>
+        <tr><td>residual</td><td class="val">fl − μ</td>
+          <td>what's left, per cell, once that shared drift is subtracted — motion that
+            disagrees with the crowd</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="margin-top:44px;">Where each one lands</h3>
+  <p style="max-width:66ch;margin-top:8px;color:var(--ink);"><strong>Inside Retina — reshaping
+    the blob.</strong> The residual's magnitude is normalised to 0–1 (<span class="mono">rmag</span>)
+    and used to reweight the plain frame-difference accumulator:
+    <span class="mono">energy = accum × (0.3 + 0.7·rmag)</span>. A pixel changing brightness in
+    lock-step with the rest of the scene (small residual, close to μ) is discounted to about 30%
+    of its raw signal; a pixel moving independently of that shared drift keeps up to 100%. This
+    is what stops a swaying whole scene, or the camera shaking, from being handed to the
+    threshold step as "the" moving object.</p>
+  <p style="max-width:66ch;margin-top:14px;color:var(--ink);"><strong>Inside Circuit — gating
+    the alarm.</strong> The magnitude of μ alone, <span class="mono">flow_mag</span>, is passed
+    through unrelated to the blob mask, all the way to <span class="mono">LoomingCircuit.step()</span>,
+    where <span class="mono">suppress = 1 / (1 + (flow / FLOW_SUPPRESS)²)</span> discounts
+    DNp01's output the more the whole scene is judged to be translating — independent of
+    whatever blob was actually found. Same optical-flow computation, two separate jobs: one
+    shapes perception, the other gates the decision.</p>
+
+  <p style="max-width:66ch;margin-top:14px;color:var(--ink-dim);font-size:.92rem;">In the fly,
+    this split is the literal job of the HS/VS lobula-plate tangential cells — wide receptive
+    fields that pool local elementary-motion signals to read out the whole-scene optic-flow
+    patterns produced by the fly's <em>own</em> movement, used for flight stabilisation, entirely
+    separate from the narrow-field looming pathway. The μ/residual split here is a standard-CV
+    stand-in for that same separation, not a T4/T5 correlator array — see the honest framing in
+    § known limitations.</p>
+</section>
+
+<section id="tuning" class="prose">
+  <div class="section-head">
+    <p class="eyebrow">Stage 02, in depth</p>
+    <h2>How the final constants were chosen</h2>
+    <p>Every value tagged <span class="badge empirical">empirical</span> in the table below
+      wasn't fit to data by an optimiser — it was set by hand against two contrasting clips and
+      an ablation harness that isolates one mechanism at a time, then judged against a stated
+      acceptance rule.</p>
+  </div>
+
+  <h3>The two calibration clips</h3>
+  <p style="max-width:66ch;margin-top:8px;color:var(--ink);"><span class="mono">CCTV.mov</span>
+    — 78 s, 1,118 frames, cropped home security footage containing a real approach.
+    <span class="mono">WAYMO.MOV</span> — 30 s, 895 frames, in-vehicle dashcam footage: constant
+    self-motion, no looming threat, exactly the kind of clip a naive motion detector floods with
+    false alarms. Both clips are things an ordinary detector already thought worth alerting on —
+    so a constant is judged not by whether the circuit fires, but by whether it fires on the
+    right one.</p>
+
+  <h3 style="margin-top:44px;">The ablation loop</h3>
+  <p style="max-width:66ch;margin-top:8px;color:var(--ink);">Both clips are run through the full
+    circuit, then re-run with exactly one mechanism disabled at a time. If disabling a mechanism
+    doesn't move the alarm count in the direction it should, either the constant governing it is
+    wrong, or — as turned out to be the case for flow suppression — it isn't engaging at all.</p>
+  <div class="table-wrap" style="margin-top:16px;">
+    <table>
+      <thead><tr><th>Configuration</th><th>CCTV.mov</th><th>WAYMO.MOV</th></tr></thead>
+      <tbody>
+        <tr><td>Full circuit</td><td class="val">peak .80 · 0 alarms</td><td class="val">peak .97 · 1 alarm</td></tr>
+        <tr><td>Habituation OFF</td><td class="val">peak 1.00 · 11 alarms</td><td class="val">peak 1.00 · 12 alarms</td></tr>
+        <tr><td>HS/VS suppression OFF</td><td class="val">peak .80 · 0 alarms</td><td class="val">peak .97 · 1 alarm <span style="color:var(--ink-dim);">(no change)</span></td></tr>
+        <tr><td>Size gate OFF</td><td class="val">peak .80 · 1 alarm <span style="color:var(--ink-dim);">(spurious, θ=20°)</span></td><td class="val">peak .97 · 1 alarm</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="max-width:66ch;margin-top:12px;color:var(--ink-dim);font-size:.92rem;">The
+    "no change" row is itself a finding, not a null result: it's what showed
+    <span class="mono">FLOW_SUPPRESS</span> below wasn't calibrated to the flow magnitudes the
+    clips actually produce.</p>
+
+  <h3 style="margin-top:44px;">Constant by constant</h3>
+  <div class="table-wrap" style="margin-top:16px;">
+    <table>
+      <thead><tr><th>Constant</th><th>How it was set</th></tr></thead>
+      <tbody>
+        <tr><td>SIZE_WIDTH_DEG 18°</td>
+          <td>width of the Gaussian around the published 40° peak — narrow enough that LPLC2
+            doesn't respond to any large object, wide enough to still respond near the approach
+            clip's actual peak angular size</td></tr>
+        <tr><td>VEL_TAU .10s / VEL_NORM 90°/s</td>
+          <td>high-pass time constant and normalisation picked so LC4 saturates near the dθ/dt
+            values actually measured on the approach clip, not from a formula</td></tr>
+        <tr><td>SUPRALINEAR 1.4</td>
+          <td>supralinear summation is reported in Ache et al.; 1.4 is this project's own
+            exponent, chosen so two weak channels can co-activate DNp01 without either alone
+            crossing threshold</td></tr>
+        <tr><td>MAD threshold k = 6.0</td>
+          <td>raised by hand against real background clutter until stationary-scene noise
+            stopped tripping the blob detector</td></tr>
+        <tr><td>ALARM / NOTICE = .65 / .30</td>
+          <td>set relative to the DNp01 peaks actually observed on the approach clip (≈0.8–1.0)
+            versus background motion, leaving headroom between the two tiers</td></tr>
+        <tr><td>MIN_ALARM_DEG = 25°</td>
+          <td>the size gate — the ablation table above shows removing it lets a 20° spurious
+            blob alarm on velocity alone; 25° sits just above that</td></tr>
+        <tr><td>HAB_DECAY/RECOVER/FLOOR = .35/.08/.20 per s</td>
+          <td>tuned so habituation visibly kicks in within a few seconds of repeated motion and
+            recovers over a comparable gap — no published timescale to anchor to</td></tr>
+        <tr><td>FLOW_SUPPRESS = 2.5</td>
+          <td>an initial guess for the flow scale that should fully gate the alarm; the ablation
+            table above shows it's too high for the flow magnitudes actually observed — a live,
+            not-yet-closed retune, target ≈0.5 (§ known limitations)</td></tr>
+        <tr><td>REFRACTORY_S = 2.0s</td>
+          <td>cooldown long enough that one continuous approach isn't double-counted as several
+            separate alarms</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="constants" class="prose">
+  <div class="section-head">
+    <p class="eyebrow">Constant provenance</p>
+    <h2>What's measured, what's published, what's ours</h2>
+    <p>The position taken in the code: the connectome supplies architecture and weights,
+      published physiology supplies the response functions, and every threshold is empirical —
+      claimed no further than that.</p>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Constant</th><th>Value</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td>w_vel / w_size / w_cross</td><td class="val">.567 / .433 / .159</td>
+          <td><span class="badge connectome">connectome</span> computed from circuit_weights.json at init</td></tr>
+        <tr><td>SIZE_PEAK_DEG</td><td class="val">40.0°</td>
+          <td><span class="badge published">published</span> Ache et al. 2019</td></tr>
+        <tr><td>SIZE_WIDTH_DEG</td><td class="val">18.0°</td>
+          <td><span class="badge empirical">empirical</span></td></tr>
+        <tr><td>VEL_TAU / VEL_NORM</td><td class="val">.10 s / 90°/s</td>
+          <td><span class="badge empirical">empirical</span></td></tr>
+        <tr><td>SUPRALINEAR</td><td class="val">1.4</td>
+          <td><span class="badge empirical">empirical</span> supralinearity published, exponent ours</td></tr>
+        <tr><td>HAB_DECAY / RECOVER / FLOOR</td><td class="val">.35 / .08 / .20 per s</td>
+          <td><span class="badge empirical">empirical</span> no published habituation constants found</td></tr>
+        <tr><td>MAD threshold k</td><td class="val">6.0</td>
+          <td><span class="badge empirical">empirical</span> motion.py</td></tr>
+        <tr><td>ALARM / NOTICE / MIN_ALARM_DEG</td><td class="val">.65 / .30 / 25°</td>
+          <td><span class="badge empirical">empirical</span></td></tr>
+        <tr><td>FLOW_SUPPRESS</td><td class="val">2.5</td>
+          <td><span class="badge empirical">empirical</span> see known limitations — under retune</td></tr>
+        <tr><td>REFRACTORY_S</td><td class="val">2.0 s</td>
+          <td><span class="badge empirical">empirical</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="limitations" class="prose">
+  <div class="section-head">
+    <p class="eyebrow">Known limitations</p>
+    <h2>Documented, not hidden</h2>
+  </div>
+  <div class="limits">
+    <div class="limit">
+      <b>Habituation over-suppresses</b>
+      <p>Zero alarms on a real approach clip isn't selectivity — the mechanism is eating
+        genuine events along with the nuisance ones. Needs labelled ground truth to tune against.</p>
+    </div>
+    <div class="limit">
+      <b>Flow suppression may be inert</b>
+      <p><span class="mono">FLOW_SUPPRESS=2.5</span> against an observed flow range with a much
+        lower median means the wide-field self-motion gate barely engages on some footage.</p>
+    </div>
+    <div class="limit">
+      <b>θ is quantised</b>
+      <p>A 48×48 grid gives 1.25°/cell, so dθ/dt carries quantisation noise alongside real motion.</p>
+    </div>
+    <div class="limit">
+      <b>Fixed 60° FOV assumption</b>
+      <p>Angular size is only as correct as the configured field of view — not yet set per clip.</p>
+    </div>
+    <div class="limit">
+      <b>Small evaluation set</b>
+      <p>Two clips, no labelled ground truth yet — a result, not a benchmark.</p>
+    </div>
+    <div class="limit">
+      <b>Monocular depth ambiguity</b>
+      <p>"Small and close" vs "large and far" is unresolved; flies disambiguate with panoramic
+        vision and ecological priors this system doesn't have.</p>
+    </div>
+  </div>
+</section>
+
+<section id="run" class="prose">
+  <div class="section-head">
+    <p class="eyebrow">Reproducing it</p>
+    <h2>Commands</h2>
+  </div>
+  <div class="cmds">
+    <div><span class="c"># one-time: connectome → weights.json</span></div>
+    <div>python scripts/extract_subgraph.py</div>
+    <div>&nbsp;</div>
+    <div><span class="c"># self-test + habituation demo</span></div>
+    <div>python src/circuit.py</div>
+    <div>&nbsp;</div>
+    <div><span class="c"># webcam, 'q' to quit</span></div>
+    <div>python src/live.py</div>
+    <div>&nbsp;</div>
+    <div><span class="c"># batch a clip, watch it run</span></div>
+    <div>python src/run_clip.py clips/real/CCTV.mov --show</div>
+    <div>&nbsp;</div>
+    <div><span class="c"># per-frame diagnostic trace</span></div>
+    <div>python scripts/trace.py clips/real/CCTV.mov | tail -6</div>
+  </div>
+</section>
+
+<footer class="prose">
+  <p><strong>Data.</strong> MaleCNS v1.0 (2026) — HHMI Janelia FlyEM, Google Research,
+    University of Cambridge, MRC LMB. Licensed CC-BY 4.0; commercial use permitted with
+    attribution. Not included in this repo — see <span class="mono">scripts/download_data.sh</span>.
+    FlyWire data is excluded entirely (CC BY-NC, incompatible with commercial use).</p>
+  <p style="margin-top:10px;"><strong>Model.</strong> Response functions follow Ache et al. (2019),
+    <em>Neural Basis for Looming Size and Velocity Encoding in the Drosophila Giant Fiber Escape
+    Pathway</em>, Current Biology. Weights are derived from connectome synapse counts, not fitted;
+    thresholds and habituation constants are this project's own.</p>
+</footer>
+
+</body>
+</html>

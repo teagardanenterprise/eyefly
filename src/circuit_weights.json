@@ -1,0 +1,1046 @@
+{
+  "source": "MaleCNS v1.0 (CC-BY 4.0), HHMI Janelia / Google Research / Cambridge / MRC LMB",
+  "min_synapse_weight": 3,
+  "neuron_counts": {
+    "T4c": 1778,
+    "T5c": 1720,
+    "T5b": 1715,
+    "T4d": 1709,
+    "T4b": 1690,
+    "T4a": 1684,
+    "T5a": 1664,
+    "T5d": 1620,
+    "LPLC2": 185,
+    "LC11": 143,
+    "LPLC1": 134,
+    "LC4": 126,
+    "LPLC4": 97,
+    "VS": 18,
+    "DNp04": 2,
+    "DNp03": 2,
+    "DNp06": 2,
+    "DNp02": 2,
+    "DNp11": 2,
+    "HSS": 2,
+    "HSE": 2,
+    "HSN": 2,
+    "DNp01": 2
+  },
+  "type_sign": {
+    "DNp01": 1.0,
+    "DNp02": 1.0,
+    "DNp03": 1.0,
+    "DNp04": 1.0,
+    "DNp06": 1.0,
+    "DNp11": 1.0,
+    "HSE": 1.0,
+    "HSN": 1.0,
+    "HSS": 1.0,
+    "LC11": 1.0,
+    "LC4": 1.0,
+    "LPLC1": 1.0,
+    "LPLC2": 1.0,
+    "LPLC4": 1.0,
+    "T4a": 1.0,
+    "T4b": 1.0,
+    "T4c": 1.0,
+    "T4d": 1.0,
+    "T5a": 1.0,
+    "T5b": 1.0,
+    "T5c": 1.0,
+    "T5d": 1.0,
+    "VS": 1.0
+  },
+  "edges": {
+    "T5d->VS": {
+      "synapses": 50819,
+      "signed": 50819.0,
+      "n_edges": 4183
+    },
+    "T4d->VS": {
+      "synapses": 50208,
+      "signed": 50208.0,
+      "n_edges": 4054
+    },
+    "LPLC2->LPLC2": {
+      "synapses": 37032,
+      "signed": 37032.0,
+      "n_edges": 7149
+    },
+    "T4b->T4b": {
+      "synapses": 28292,
+      "signed": 28292.0,
+      "n_edges": 5882
+    },
+    "T5b->T5b": {
+      "synapses": 22363,
+      "signed": 22363.0,
+      "n_edges": 5137
+    },
+    "T4a->T4a": {
+      "synapses": 21037,
+      "signed": 21037.0,
+      "n_edges": 4561
+    },
+    "T5a->T5a": {
+      "synapses": 17405,
+      "signed": 17405.0,
+      "n_edges": 4034
+    },
+    "T4c->T4c": {
+      "synapses": 17377,
+      "signed": 17377.0,
+      "n_edges": 3953
+    },
+    "T4d->T4d": {
+      "synapses": 17335,
+      "signed": 17335.0,
+      "n_edges": 4022
+    },
+    "T5a->HSE": {
+      "synapses": 16500,
+      "signed": 16500.0,
+      "n_edges": 1059
+    },
+    "T5a->HSN": {
+      "synapses": 16455,
+      "signed": 16455.0,
+      "n_edges": 814
+    },
+    "T5d->LPLC2": {
+      "synapses": 16342,
+      "signed": 16342.0,
+      "n_edges": 2906
+    },
+    "T5a->VS": {
+      "synapses": 16303,
+      "signed": 16303.0,
+      "n_edges": 1810
+    },
+    "LPLC1->LPLC1": {
+      "synapses": 15741,
+      "signed": 15741.0,
+      "n_edges": 3255
+    },
+    "T5d->T5d": {
+      "synapses": 15118,
+      "signed": 15118.0,
+      "n_edges": 3559
+    },
+    "T5b->LPLC2": {
+      "synapses": 15011,
+      "signed": 15011.0,
+      "n_edges": 2902
+    },
+    "T5c->T5c": {
+      "synapses": 14901,
+      "signed": 14901.0,
+      "n_edges": 3553
+    },
+    "LC4->LC4": {
+      "synapses": 14814,
+      "signed": 14814.0,
+      "n_edges": 2845
+    },
+    "T4a->HSE": {
+      "synapses": 14390,
+      "signed": 14390.0,
+      "n_edges": 1075
+    },
+    "T4a->VS": {
+      "synapses": 14028,
+      "signed": 14028.0,
+      "n_edges": 1706
+    },
+    "T5c->LPLC2": {
+      "synapses": 13934,
+      "signed": 13934.0,
+      "n_edges": 2672
+    },
+    "T5a->HSS": {
+      "synapses": 13904,
+      "signed": 13904.0,
+      "n_edges": 909
+    },
+    "T4a->HSS": {
+      "synapses": 13392,
+      "signed": 13392.0,
+      "n_edges": 926
+    },
+    "T4a->HSN": {
+      "synapses": 12717,
+      "signed": 12717.0,
+      "n_edges": 778
+    },
+    "T4c->LPLC2": {
+      "synapses": 12454,
+      "signed": 12454.0,
+      "n_edges": 2439
+    },
+    "T5b->VS": {
+      "synapses": 11707,
+      "signed": 11707.0,
+      "n_edges": 935
+    },
+    "LC4->DNp04": {
+      "synapses": 11597,
+      "signed": 11597.0,
+      "n_edges": 126
+    },
+    "T4b->VS": {
+      "synapses": 11123,
+      "signed": 11123.0,
+      "n_edges": 911
+    },
+    "T5a->LPLC2": {
+      "synapses": 9945,
+      "signed": 9945.0,
+      "n_edges": 1885
+    },
+    "T4b->LPLC2": {
+      "synapses": 9360,
+      "signed": 9360.0,
+      "n_edges": 2040
+    },
+    "LC11->LC11": {
+      "synapses": 8891,
+      "signed": 8891.0,
+      "n_edges": 2260
+    },
+    "T5c->LPLC1": {
+      "synapses": 8869,
+      "signed": 8869.0,
+      "n_edges": 1630
+    },
+    "T4c->LPLC1": {
+      "synapses": 8734,
+      "signed": 8734.0,
+      "n_edges": 1575
+    },
+    "T4a->LPLC2": {
+      "synapses": 8223,
+      "signed": 8223.0,
+      "n_edges": 1672
+    },
+    "T4b->LPLC1": {
+      "synapses": 8091,
+      "signed": 8091.0,
+      "n_edges": 1453
+    },
+    "T5b->LPLC1": {
+      "synapses": 7420,
+      "signed": 7420.0,
+      "n_edges": 1384
+    },
+    "T5d->LPLC1": {
+      "synapses": 6423,
+      "signed": 6423.0,
+      "n_edges": 1237
+    },
+    "LC4->DNp01": {
+      "synapses": 6362,
+      "signed": 6362.0,
+      "n_edges": 126
+    },
+    "LPLC2->DNp01": {
+      "synapses": 4858,
+      "signed": 4858.0,
+      "n_edges": 182
+    },
+    "T4d->LPLC2": {
+      "synapses": 4735,
+      "signed": 4735.0,
+      "n_edges": 1120
+    },
+    "LC4->DNp02": {
+      "synapses": 4209,
+      "signed": 4209.0,
+      "n_edges": 125
+    },
+    "T4d->LPLC1": {
+      "synapses": 4124,
+      "signed": 4124.0,
+      "n_edges": 884
+    },
+    "LPLC4->LPLC4": {
+      "synapses": 3761,
+      "signed": 3761.0,
+      "n_edges": 824
+    },
+    "LPLC4->DNp03": {
+      "synapses": 3740,
+      "signed": 3740.0,
+      "n_edges": 97
+    },
+    "T4b->T5b": {
+      "synapses": 3723,
+      "signed": 3723.0,
+      "n_edges": 1047
+    },
+    "LC4->DNp11": {
+      "synapses": 3655,
+      "signed": 3655.0,
+      "n_edges": 116
+    },
+    "LPLC1->DNp03": {
+      "synapses": 3602,
+      "signed": 3602.0,
+      "n_edges": 134
+    },
+    "LPLC2->DNp04": {
+      "synapses": 3388,
+      "signed": 3388.0,
+      "n_edges": 178
+    },
+    "T5b->T4b": {
+      "synapses": 3131,
+      "signed": 3131.0,
+      "n_edges": 884
+    },
+    "LPLC2->LPLC4": {
+      "synapses": 3053,
+      "signed": 3053.0,
+      "n_edges": 423
+    },
+    "LPLC1->DNp06": {
+      "synapses": 2773,
+      "signed": 2773.0,
+      "n_edges": 134
+    },
+    "T4d->T5d": {
+      "synapses": 2630,
+      "signed": 2630.0,
+      "n_edges": 738
+    },
+    "T4c->T5c": {
+      "synapses": 2583,
+      "signed": 2583.0,
+      "n_edges": 741
+    },
+    "LC4->DNp03": {
+      "synapses": 2505,
+      "signed": 2505.0,
+      "n_edges": 125
+    },
+    "T5c->T4c": {
+      "synapses": 2404,
+      "signed": 2404.0,
+      "n_edges": 689
+    },
+    "T5d->T4d": {
+      "synapses": 2071,
+      "signed": 2071.0,
+      "n_edges": 598
+    },
+    "LPLC1->LC4": {
+      "synapses": 2035,
+      "signed": 2035.0,
+      "n_edges": 330
+    },
+    "T4a->T5a": {
+      "synapses": 1998,
+      "signed": 1998.0,
+      "n_edges": 566
+    },
+    "LPLC2->LC4": {
+      "synapses": 1780,
+      "signed": 1780.0,
+      "n_edges": 380
+    },
+    "LPLC2->DNp06": {
+      "synapses": 1689,
+      "signed": 1689.0,
+      "n_edges": 160
+    },
+    "T5a->T4a": {
+      "synapses": 1470,
+      "signed": 1470.0,
+      "n_edges": 427
+    },
+    "LC11->LPLC4": {
+      "synapses": 1259,
+      "signed": 1259.0,
+      "n_edges": 212
+    },
+    "LC4->DNp06": {
+      "synapses": 1142,
+      "signed": 1142.0,
+      "n_edges": 119
+    },
+    "T5c->LC4": {
+      "synapses": 1096,
+      "signed": 1096.0,
+      "n_edges": 314
+    },
+    "LPLC1->DNp11": {
+      "synapses": 1008,
+      "signed": 1008.0,
+      "n_edges": 83
+    },
+    "T5c->T5b": {
+      "synapses": 556,
+      "signed": 556.0,
+      "n_edges": 89
+    },
+    "T4b->T4a": {
+      "synapses": 447,
+      "signed": 447.0,
+      "n_edges": 97
+    },
+    "T5c->T5a": {
+      "synapses": 433,
+      "signed": 433.0,
+      "n_edges": 60
+    },
+    "T5b->T5c": {
+      "synapses": 406,
+      "signed": 406.0,
+      "n_edges": 85
+    },
+    "T4b->T4c": {
+      "synapses": 399,
+      "signed": 399.0,
+      "n_edges": 101
+    },
+    "T4d->T4c": {
+      "synapses": 397,
+      "signed": 397.0,
+      "n_edges": 86
+    },
+    "LPLC1->LC11": {
+      "synapses": 395,
+      "signed": 395.0,
+      "n_edges": 91
+    },
+    "T5c->T5d": {
+      "synapses": 368,
+      "signed": 368.0,
+      "n_edges": 77
+    },
+    "T4c->T4d": {
+      "synapses": 356,
+      "signed": 356.0,
+      "n_edges": 82
+    },
+    "T4d->T4b": {
+      "synapses": 354,
+      "signed": 354.0,
+      "n_edges": 70
+    },
+    "T4a->T4b": {
+      "synapses": 351,
+      "signed": 351.0,
+      "n_edges": 87
+    },
+    "T4b->T4d": {
+      "synapses": 343,
+      "signed": 343.0,
+      "n_edges": 76
+    },
+    "T4c->T4b": {
+      "synapses": 336,
+      "signed": 336.0,
+      "n_edges": 71
+    },
+    "T4c->T4a": {
+      "synapses": 332,
+      "signed": 332.0,
+      "n_edges": 65
+    },
+    "T5b->T5a": {
+      "synapses": 312,
+      "signed": 312.0,
+      "n_edges": 48
+    },
+    "T5a->T5c": {
+      "synapses": 306,
+      "signed": 306.0,
+      "n_edges": 72
+    },
+    "LPLC4->DNp11": {
+      "synapses": 299,
+      "signed": 299.0,
+      "n_edges": 18
+    },
+    "T4d->T4a": {
+      "synapses": 290,
+      "signed": 290.0,
+      "n_edges": 60
+    },
+    "T5b->T5d": {
+      "synapses": 281,
+      "signed": 281.0,
+      "n_edges": 57
+    },
+    "T5a->T5b": {
+      "synapses": 281,
+      "signed": 281.0,
+      "n_edges": 52
+    },
+    "T4a->T4c": {
+      "synapses": 271,
+      "signed": 271.0,
+      "n_edges": 64
+    },
+    "T5d->T5b": {
+      "synapses": 265,
+      "signed": 265.0,
+      "n_edges": 43
+    },
+    "T5a->T5d": {
+      "synapses": 260,
+      "signed": 260.0,
+      "n_edges": 52
+    },
+    "T5a->LC4": {
+      "synapses": 256,
+      "signed": 256.0,
+      "n_edges": 77
+    },
+    "T5d->T5c": {
+      "synapses": 253,
+      "signed": 253.0,
+      "n_edges": 59
+    },
+    "T4a->T4d": {
+      "synapses": 246,
+      "signed": 246.0,
+      "n_edges": 58
+    },
+    "T5d->T5a": {
+      "synapses": 200,
+      "signed": 200.0,
+      "n_edges": 33
+    },
+    "VS->VS": {
+      "synapses": 189,
+      "signed": 189.0,
+      "n_edges": 35
+    },
+    "T4c->LPLC4": {
+      "synapses": 174,
+      "signed": 174.0,
+      "n_edges": 48
+    },
+    "T5c->LPLC4": {
+      "synapses": 173,
+      "signed": 173.0,
+      "n_edges": 50
+    },
+    "T5b->LC4": {
+      "synapses": 142,
+      "signed": 142.0,
+      "n_edges": 45
+    },
+    "T5d->LPLC4": {
+      "synapses": 125,
+      "signed": 125.0,
+      "n_edges": 28
+    },
+    "DNp11->DNp01": {
+      "synapses": 118,
+      "signed": 118.0,
+      "n_edges": 3
+    },
+    "DNp01->DNp11": {
+      "synapses": 107,
+      "signed": 107.0,
+      "n_edges": 3
+    },
+    "T4d->LPLC4": {
+      "synapses": 92,
+      "signed": 92.0,
+      "n_edges": 16
+    },
+    "T4a->LPLC4": {
+      "synapses": 87,
+      "signed": 87.0,
+      "n_edges": 25
+    },
+    "LPLC1->LPLC2": {
+      "synapses": 81,
+      "signed": 81.0,
+      "n_edges": 23
+    },
+    "LC11->LPLC1": {
+      "synapses": 76,
+      "signed": 76.0,
+      "n_edges": 20
+    },
+    "T5a->LPLC1": {
+      "synapses": 68,
+      "signed": 68.0,
+      "n_edges": 20
+    },
+    "T4b->T5c": {
+      "synapses": 55,
+      "signed": 55.0,
+      "n_edges": 13
+    },
+    "DNp04->DNp06": {
+      "synapses": 54,
+      "signed": 54.0,
+      "n_edges": 2
+    },
+    "LPLC2->LPLC1": {
+      "synapses": 52,
+      "signed": 52.0,
+      "n_edges": 15
+    },
+    "T5a->LPLC4": {
+      "synapses": 50,
+      "signed": 50.0,
+      "n_edges": 15
+    },
+    "T4b->T5a": {
+      "synapses": 49,
+      "signed": 49.0,
+      "n_edges": 10
+    },
+    "T4c->VS": {
+      "synapses": 48,
+      "signed": 48.0,
+      "n_edges": 11
+    },
+    "LPLC1->LPLC4": {
+      "synapses": 47,
+      "signed": 47.0,
+      "n_edges": 11
+    },
+    "T5c->VS": {
+      "synapses": 46,
+      "signed": 46.0,
+      "n_edges": 9
+    },
+    "LC4->LPLC1": {
+      "synapses": 42,
+      "signed": 42.0,
+      "n_edges": 13
+    },
+    "T4a->LPLC1": {
+      "synapses": 38,
+      "signed": 38.0,
+      "n_edges": 12
+    },
+    "T4d->T5c": {
+      "synapses": 36,
+      "signed": 36.0,
+      "n_edges": 10
+    },
+    "T4c->T5d": {
+      "synapses": 34,
+      "signed": 34.0,
+      "n_edges": 10
+    },
+    "LPLC4->LPLC2": {
+      "synapses": 34,
+      "signed": 34.0,
+      "n_edges": 7
+    },
+    "LPLC2->DNp11": {
+      "synapses": 33,
+      "signed": 33.0,
+      "n_edges": 9
+    },
+    "T4c->T5b": {
+      "synapses": 32,
+      "signed": 32.0,
+      "n_edges": 9
+    },
+    "T5a->T4b": {
+      "synapses": 30,
+      "signed": 30.0,
+      "n_edges": 8
+    },
+    "T5b->T4d": {
+      "synapses": 28,
+      "signed": 28.0,
+      "n_edges": 6
+    },
+    "DNp02->DNp04": {
+      "synapses": 26,
+      "signed": 26.0,
+      "n_edges": 2
+    },
+    "LC4->LPLC2": {
+      "synapses": 26,
+      "signed": 26.0,
+      "n_edges": 8
+    },
+    "DNp04->DNp02": {
+      "synapses": 25,
+      "signed": 25.0,
+      "n_edges": 2
+    },
+    "T4b->T5d": {
+      "synapses": 25,
+      "signed": 25.0,
+      "n_edges": 8
+    },
+    "T5b->T4c": {
+      "synapses": 23,
+      "signed": 23.0,
+      "n_edges": 7
+    },
+    "T5d->T4c": {
+      "synapses": 22,
+      "signed": 22.0,
+      "n_edges": 7
+    },
+    "T5c->T4d": {
+      "synapses": 21,
+      "signed": 21.0,
+      "n_edges": 7
+    },
+    "T5c->T4b": {
+      "synapses": 21,
+      "signed": 21.0,
+      "n_edges": 7
+    },
+    "T5d->T4a": {
+      "synapses": 18,
+      "signed": 18.0,
+      "n_edges": 6
+    },
+    "T4a->T5c": {
+      "synapses": 17,
+      "signed": 17.0,
+      "n_edges": 5
+    },
+    "T5a->T4c": {
+      "synapses": 17,
+      "signed": 17.0,
+      "n_edges": 5
+    },
+    "DNp06->DNp02": {
+      "synapses": 17,
+      "signed": 17.0,
+      "n_edges": 2
+    },
+    "LPLC2->VS": {
+      "synapses": 16,
+      "signed": 16.0,
+      "n_edges": 5
+    },
+    "LPLC2->T5d": {
+      "synapses": 15,
+      "signed": 15.0,
+      "n_edges": 3
+    },
+    "T4d->T5b": {
+      "synapses": 15,
+      "signed": 15.0,
+      "n_edges": 4
+    },
+    "T5d->LC4": {
+      "synapses": 14,
+      "signed": 14.0,
+      "n_edges": 3
+    },
+    "DNp11->DNp11": {
+      "synapses": 14,
+      "signed": 14.0,
+      "n_edges": 2
+    },
+    "T5a->T4d": {
+      "synapses": 13,
+      "signed": 13.0,
+      "n_edges": 4
+    },
+    "LPLC1->DNp04": {
+      "synapses": 12,
+      "signed": 12.0,
+      "n_edges": 3
+    },
+    "LC4->LPLC4": {
+      "synapses": 12,
+      "signed": 12.0,
+      "n_edges": 4
+    },
+    "LPLC2->T4d": {
+      "synapses": 12,
+      "signed": 12.0,
+      "n_edges": 3
+    },
+    "DNp01->LC4": {
+      "synapses": 12,
+      "signed": 12.0,
+      "n_edges": 4
+    },
+    "DNp01->DNp06": {
+      "synapses": 12,
+      "signed": 12.0,
+      "n_edges": 2
+    },
+    "T5b->T4a": {
+      "synapses": 11,
+      "signed": 11.0,
+      "n_edges": 3
+    },
+    "DNp06->DNp04": {
+      "synapses": 11,
+      "signed": 11.0,
+      "n_edges": 2
+    },
+    "LC11->LPLC2": {
+      "synapses": 11,
+      "signed": 11.0,
+      "n_edges": 3
+    },
+    "HSN->VS": {
+      "synapses": 10,
+      "signed": 10.0,
+      "n_edges": 2
+    },
+    "HSS->T4a": {
+      "synapses": 9,
+      "signed": 9.0,
+      "n_edges": 3
+    },
+    "T4a->T5b": {
+      "synapses": 9,
+      "signed": 9.0,
+      "n_edges": 3
+    },
+    "T4b->LPLC4": {
+      "synapses": 9,
+      "signed": 9.0,
+      "n_edges": 3
+    },
+    "T4d->T5a": {
+      "synapses": 9,
+      "signed": 9.0,
+      "n_edges": 3
+    },
+    "LPLC4->LC11": {
+      "synapses": 9,
+      "signed": 9.0,
+      "n_edges": 2
+    },
+    "LPLC1->T4b": {
+      "synapses": 9,
+      "signed": 9.0,
+      "n_edges": 2
+    },
+    "DNp01->DNp02": {
+      "synapses": 8,
+      "signed": 8.0,
+      "n_edges": 1
+    },
+    "T4a->T5d": {
+      "synapses": 8,
+      "signed": 8.0,
+      "n_edges": 2
+    },
+    "DNp06->DNp01": {
+      "synapses": 8,
+      "signed": 8.0,
+      "n_edges": 1
+    },
+    "LC4->LC11": {
+      "synapses": 7,
+      "signed": 7.0,
+      "n_edges": 2
+    },
+    "HSS->T5a": {
+      "synapses": 7,
+      "signed": 7.0,
+      "n_edges": 2
+    },
+    "DNp11->LC11": {
+      "synapses": 7,
+      "signed": 7.0,
+      "n_edges": 2
+    },
+    "DNp11->LC4": {
+      "synapses": 6,
+      "signed": 6.0,
+      "n_edges": 2
+    },
+    "LPLC4->VS": {
+      "synapses": 6,
+      "signed": 6.0,
+      "n_edges": 2
+    },
+    "T5d->T4b": {
+      "synapses": 6,
+      "signed": 6.0,
+      "n_edges": 2
+    },
+    "T5c->HSE": {
+      "synapses": 6,
+      "signed": 6.0,
+      "n_edges": 1
+    },
+    "DNp06->DNp11": {
+      "synapses": 6,
+      "signed": 6.0,
+      "n_edges": 2
+    },
+    "HSN->LPLC1": {
+      "synapses": 6,
+      "signed": 6.0,
+      "n_edges": 1
+    },
+    "LPLC1->HSE": {
+      "synapses": 5,
+      "signed": 5.0,
+      "n_edges": 1
+    },
+    "T4d->HSS": {
+      "synapses": 5,
+      "signed": 5.0,
+      "n_edges": 1
+    },
+    "LC11->DNp11": {
+      "synapses": 4,
+      "signed": 4.0,
+      "n_edges": 1
+    },
+    "LPLC4->LC4": {
+      "synapses": 4,
+      "signed": 4.0,
+      "n_edges": 1
+    },
+    "LPLC4->HSS": {
+      "synapses": 4,
+      "signed": 4.0,
+      "n_edges": 1
+    },
+    "DNp11->LPLC4": {
+      "synapses": 4,
+      "signed": 4.0,
+      "n_edges": 1
+    },
+    "DNp02->DNp06": {
+      "synapses": 4,
+      "signed": 4.0,
+      "n_edges": 1
+    },
+    "DNp04->LC4": {
+      "synapses": 4,
+      "signed": 4.0,
+      "n_edges": 1
+    },
+    "T4d->HSN": {
+      "synapses": 4,
+      "signed": 4.0,
+      "n_edges": 1
+    },
+    "HSN->HSE": {
+      "synapses": 4,
+      "signed": 4.0,
+      "n_edges": 1
+    },
+    "LPLC2->HSE": {
+      "synapses": 4,
+      "signed": 4.0,
+      "n_edges": 1
+    },
+    "T5c->LC11": {
+      "synapses": 4,
+      "signed": 4.0,
+      "n_edges": 1
+    },
+    "T4b->LC4": {
+      "synapses": 3,
+      "signed": 3.0,
+      "n_edges": 1
+    },
+    "DNp01->DNp04": {
+      "synapses": 3,
+      "signed": 3.0,
+      "n_edges": 1
+    },
+    "LC4->T5c": {
+      "synapses": 3,
+      "signed": 3.0,
+      "n_edges": 1
+    },
+    "T5b->LC11": {
+      "synapses": 3,
+      "signed": 3.0,
+      "n_edges": 1
+    },
+    "VS->HSS": {
+      "synapses": 3,
+      "signed": 3.0,
+      "n_edges": 1
+    },
+    "VS->LPLC2": {
+      "synapses": 3,
+      "signed": 3.0,
+      "n_edges": 1
+    },
+    "VS->T5d": {
+      "synapses": 3,
+      "signed": 3.0,
+      "n_edges": 1
+    },
+    "DNp02->DNp11": {
+      "synapses": 3,
+      "signed": 3.0,
+      "n_edges": 1
+    },
+    "DNp11->LPLC1": {
+      "synapses": 3,
+      "signed": 3.0,
+      "n_edges": 1
+    },
+    "T5b->LPLC4": {
+      "synapses": 3,
+      "signed": 3.0,
+      "n_edges": 1
+    },
+    "LPLC4->T4d": {
+      "synapses": 3,
+      "signed": 3.0,
+      "n_edges": 1
+    },
+    "LPLC2->T5b": {
+      "synapses": 3,
+      "signed": 3.0,
+      "n_edges": 1
+    },
+    "LPLC1->T5b": {
+      "synapses": 3,
+      "signed": 3.0,
+      "n_edges": 1
+    },
+    "LPLC2->T4c": {
+      "synapses": 3,
+      "signed": 3.0,
+      "n_edges": 1
+    },
+    "T4c->T5a": {
+      "synapses": 3,
+      "signed": 3.0,
+      "n_edges": 1
+    },
+    "T5c->T4a": {
+      "synapses": 3,
+      "signed": 3.0,
+      "n_edges": 1
+    },
+    "LPLC2->LC11": {
+      "synapses": 3,
+      "signed": 3.0,
+      "n_edges": 1
+    },
+    "LPLC2->HSN": {
+      "synapses": 3,
+      "signed": 3.0,
+      "n_edges": 1
+    },
+    "HSE->T5a": {
+      "synapses": 3,
+      "signed": 3.0,
+      "n_edges": 1
+    },
+    "LPLC2->T5c": {
+      "synapses": 3,
+      "signed": 3.0,
+      "n_edges": 1
+    }
+  }
+}

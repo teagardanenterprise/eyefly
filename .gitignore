@@ -1,0 +1,10 @@
+data/*.feather
+data/skeletons/
+clips/
+out/
+__pycache__/
+*.pyc
+.DS_Store
+LOG
+*.zip
+CCTV_FRUITFLY_PITCH_ENG/

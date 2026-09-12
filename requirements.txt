@@ -1,0 +1,6 @@
+pandas
+pyarrow
+numpy
+opencv-python
+navis
+matplotlib
