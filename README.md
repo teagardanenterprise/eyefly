@@ -66,3 +66,17 @@ Built during the AI Tinkerers "Agents Everywhere" global hackathon,
 September 2026. Developed with Claude (Anthropic) as a pair-programming
 collaborator — architecture, connectome extraction, circuit implementation,
 and debugging were worked through in conversation.
+
+## Contributors
+
+- Dhineshwar Thangavelan ([@teagardanenterprise](https://github.com/teagardanenterprise)) — connectome extraction, circuit model, vision pipeline
+- Jules Lambert ([@juleslambert345](https://github.com/juleslambert345)) — documentation, pipeline diagram
+
+## Development
+
+Built during the AI Tinkerers "Agents Everywhere" global hackathon, September 2026.
+
+Claude (Anthropic) was used throughout as a pair-programming collaborator — for rapid
+prototyping, code generation, connectome subgraph extraction, circuit implementation,
+and debugging. Architectural decisions, biological grounding, parameter tuning, and all
+validation against real footage were done by the contributors above.
